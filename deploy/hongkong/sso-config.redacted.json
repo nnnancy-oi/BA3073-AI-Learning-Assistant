@@ -1,0 +1,53 @@
+{
+  "login": {
+    "title": "AI Learning Assistant 安全登录",
+    "default_method": "simple",
+    "default_redirect": "https://nick-ba3073-2026.duckdns.org/ui/",
+    "hide_mfa_field": true
+  },
+  "cookie": {
+    "domain": "nick-ba3073-2026.duckdns.org",
+    "authentication_key": "[REDACTED]",
+    "expire": 3600,
+    "prefix": "aila-access",
+    "secure": true
+  },
+  "listen": {
+    "addr": "0.0.0.0",
+    "port": 8082
+  },
+  "providers": {
+    "simple": {
+      "enable_basic_auth": false,
+      "users": {
+        "student": "[EXISTING_BCRYPT]"
+      },
+      "groups": {}
+    }
+  },
+  "acl": {
+    "rule_sets": [
+      {
+        "rules": [
+          {
+            "field": "x-host",
+            "equals": "nick-ba3073-2026.duckdns.org"
+          }
+        ],
+        "allow": [
+          "student"
+        ]
+      }
+    ]
+  },
+  "audit_log": {
+    "targets": [
+      "fd://stdout"
+    ],
+    "events": [
+      "login_success",
+      "login_failure",
+      "logout"
+    ]
+  }
+}

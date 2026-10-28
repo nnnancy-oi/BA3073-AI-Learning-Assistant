@@ -1,0 +1,42 @@
+{
+  "services": {
+    "access": {
+      "image": "ghcr.io/luzifer/nginx-sso@sha256:9770691bcb270556f787477b5ea4a7598e2925c9a45f6aae5e3d7eeb5585d7c9",
+      "platform": "linux/amd64",
+      "entrypoint": [
+        "/usr/bin/dumb-init",
+        "--",
+        "/usr/local/bin/nginx-sso"
+      ],
+      "command": [
+        "--config",
+        "/data/config.yaml",
+        "--frontend-dir",
+        "/frontend"
+      ],
+      "restart": "unless-stopped",
+      "user": "1000:1000",
+      "read_only": true,
+      "cap_drop": [
+        "ALL"
+      ],
+      "security_opt": [
+        "no-new-privileges:true"
+      ],
+      "ports": [
+        "127.0.0.1:8082:8082"
+      ],
+      "volumes": [
+        "/root/\u4e2a\u4eba_Cloud/\u79c1\u5bc6\u914d\u7f6e/proxy-auth/sso-config.json:/data/config.yaml:ro",
+        "./frontend:/frontend:ro"
+      ],
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "10m",
+          "max-file": "3"
+        }
+      }
+    }
+  }
+}
